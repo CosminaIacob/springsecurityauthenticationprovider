@@ -1,6 +1,5 @@
 package com.easybytes.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,29 +9,37 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.sql.Date;
+
 @Getter
 @Setter
 @Entity
-public class Customer {
+public class Cards {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
+    @Column(name = "card_id")
+    private int cardId;
+
     @Column(name = "customer_id")
-    private int id;
+    private int customerId;
 
-    private String name;
+    @Column(name = "card_number")
+    private String cardNumber;
 
-    private String email;
+    @Column(name = "card_type")
+    private String cardType;
 
-    @Column(name = "mobile_number")
-    private String mobileNumber;
+    @Column(name = "total_limit")
+    private int totalLimit;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String pwd;
+    @Column(name = "amount_used")
+    private int amountUsed;
 
-    private String role;
+    @Column(name = "available_amount")
+    private int availableAmount;
 
     @Column(name = "create_dt")
-    private String createDt;
+    private Date createDt;
 }
