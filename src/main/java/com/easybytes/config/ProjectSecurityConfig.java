@@ -1,6 +1,9 @@
 package com.easybytes.config;
 
+import com.easybytes.filter.AuthoritiesLoggingAfterFilter;
+import com.easybytes.filter.AuthoritiesLoggingAtFilter;
 import com.easybytes.filter.CsrfCookieFilter;
+import com.easybytes.filter.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -71,6 +74,12 @@ public class ProjectSecurityConfig {
                 // and the csrf token will be generated
                 // and the crsf token will be persisted in the response with the help of CsrfCookieFilter
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                // add validation filter before the authentication
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                // add filter at the same position as authentication filter
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+                // add auth logging filter after the authentication
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
 
                 // AUTHORIZATION
                 .authorizeHttpRequests(requests -> requests
